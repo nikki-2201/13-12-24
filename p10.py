@@ -10,30 +10,31 @@ class Bank:
     def deposit(self, amount):
         if amount < 100:
             st.error("Deposit amount must be at least 100.")
-        elif amount > 20000:
+        if amount > 20000:
             st.error("Deposit amount cannot exceed 20,000.")
-        elif amount % 100 != 0:
+        if amount % 100 != 0:
             st.error("Deposit amount must be a multiple of 100.")
-        else:
+        if 100 <= amount <= 20000 and amount % 100 == 0:
             self.acc_bal += amount
             st.success(f"Successfully deposited {amount}. New balance: {self.acc_bal}")
 
     def withdraw(self, amount):
         if self.withdrawal_count >= 3:
             st.error("Withdrawal transaction limit reached. You can only perform 3 withdrawals.")
-        elif amount < 100:
+        if amount < 100:
             st.error("Withdrawal amount must be at least 100.")
-        elif amount > 20000:
+        if amount > 20000:
             st.error("Withdrawal amount cannot exceed 20,000.")
-        elif amount % 100 != 0:
+        if amount % 100 != 0:
             st.error("Withdrawal amount must be a multiple of 100.")
-        elif amount > (self.acc_bal - 500):
+        if amount > (self.acc_bal - 500):
             st.error("You must maintain a minimum balance of 500.")
-        elif amount <= self.acc_bal:
+        if self.withdrawal_count < 3 and 100 <= amount <= 20000 and amount % 100 == 0 and amount <= (
+                self.acc_bal - 500):
             self.acc_bal -= amount
             self.withdrawal_count += 1
             st.success(f"Successfully withdrew {amount}. New balance: {self.acc_bal}")
-        else:
+        elif amount > self.acc_bal:
             st.error("Insufficient balance.")
 
     def tot_balance(self):
